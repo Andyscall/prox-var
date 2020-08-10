@@ -43,11 +43,17 @@ for sigma in sigmas:
 
 	x_0 = np.mean(mjd_1)
 	
+
+	#chi square loops and curve fitting
 	def func(x, a, b, c, p):
-		return(a * np.sin(b * (x - x_0 + p)) + c)
+		return(a * np.sin((2*math.pi/b) * (x - x_0 + p)) + c)
 
-	params = [0.01, 0.0728, 11.8, 20]
+	params = [0.01, 86.3, 11.8, 20]
 
+	#old b: 0.0728
+
+
+	#"""
 	X = 99999
 
 	for a in range(-5, 5):
@@ -55,10 +61,10 @@ for sigma in sigmas:
 			for c in range(-5, 5):
 				for p in range(0, 10):
 
-					param = [0.01, 0.0728, 11.8, 20]
+					param = [0.01, 86.3, 11.8, 20]
 
 					pa = param[0] + a*0.001
-					pb = param[1] + b*0.001
+					pb = param[1] + b#*0.1
 					pc = param[2] + c*0.1
 					pp = param[3] + p
 
@@ -66,7 +72,7 @@ for sigma in sigmas:
 						func, mjd_1, a_1, 
 						p0=[pa, pb, pc, pp], 
 						bounds=([0.0, 0.0, 5.0, 0.0], 
-							[1.0, 1.0, 25.0, 100.0]))
+							[1.0, 200.0, 25.0, 100.0]))
 
 					#print(sigma, "param", popt)
 
@@ -98,13 +104,15 @@ for sigma in sigmas:
 		print("chisq is {}".format(chisq))
 
 
+	#"""
 
+	#curve fitting
 	popt, pcov = curve_fit(
 		func, mjd_1, a_1, 
 		p0=params, 
 		#sigma=ae_1, 
 		bounds=([0.0, 0.0, 10.0, 0.0], 
-			[1.0, 1.0, 20.0, 100.0]))#, 
+			[1.0, 200.0, 20.0, 100.0]))#, 
 		#method='trf')
 
 	print(sigma, "params", popt)
@@ -122,7 +130,7 @@ for sigma in sigmas:
 	plt.xlabel("MJD")
 	plt.ylabel("Mag")
 	plt.legend()
-	plt.title('fit: {} * sin({} * (x-x0 + {})) + {}'.format(popt[0], popt[1], popt[3], popt[2]), fontsize=8)
+	plt.title('fit: {} * sin(2pi/{} * (x-x0 + {})) + {}'.format(popt[0], popt[1], popt[3], popt[2]), fontsize=8)
 	#plt.show()
 	plt.savefig("cf_plot_p19_{}_{}.pdf".format(sigma, bins))
 	plt.close()
