@@ -352,8 +352,8 @@ def fractioner(binfile):
 	return f_data_loss
 
 
-sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
-#sigmas = [2.5]
+#sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+sigmas = [2.0]
 bins_width = 1
 
 shifts_gA = []
