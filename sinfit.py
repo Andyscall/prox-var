@@ -52,8 +52,6 @@ for sigma in sigmas:
 
 	#old b: 0.0728
 
-
-	#"""
 	X = 99999
 
 	for a in range(-5, 5):
@@ -89,8 +87,8 @@ for sigma in sigmas:
 
 					chisq = sum(chis)
 					if chisq < X:
-						print("new")
-						print(a, b, c, p)
+						#print("new")
+						#print(a, b, c, p)
 						X = chisq
 						params[0] = pa
 						params[1] = pb
@@ -98,13 +96,11 @@ for sigma in sigmas:
 						params[3] = pp
 					#print("p is {}".format(p))
 				#print("c is {}".format(c))
-			print("b is {}".format(b))
+			#print("b is {}".format(b))
 		print("a is {}".format(a))
-		print(sigma, "param", popt)
-		print("chisq is {}".format(chisq))
+		#print(sigma, "param", popt)
+		#print("chisq is {}".format(chisq))
 
-
-	#"""
 
 	#curve fitting
 	popt, pcov = curve_fit(
@@ -117,20 +113,41 @@ for sigma in sigmas:
 
 	print(sigma, "params", popt)
 
+
 	#popt = [0.04, 0.0628, 11.8, 25]
 
 	curve = []
+	ressq = []
 	for i in range(len(mjd_1)):
 		w = func(mjd_1[i], *popt)
 		curve.append(w)
+		r = (a_1[i] - w)**2
+		ressq.append(r)
 
 
-	plt.plot(mjd_1, curve, 'r-', label='fit: a=%5.3f, b=%5.3f, c=%5.3f, p=%5.3f' % tuple(popt))
+	#for sigma_Y we use the root mean square of the residuals
+	sigma_Y = np.sqrt(np.mean(ressq))
+
+	N = len(mjd_1)
+	T = mjd_1[N-1] - mjd_1[0]
+
+	sigma_a = (2/N)**(0.5) * sigma_Y
+
+	sigma_f = (6/N)**(0.5) * sigma_Y/(math.pi * T * params[0])
+
+	sigma_P = sigma_f * (params[1]**2)
+
+	print("sigma_Y is {}, sigma_A is {}, sigma_P is {}".format(sigma_Y, sigma_a, sigma_P))
+	
+
+
+	plt.plot(mjd_1, curve, 'r-', label='fit: A=%5.3f, P=%5.3f, c=%5.3f, phi=%5.3f' % tuple(popt))
 	plt.plot(mjd_1, a_1, 'b.', label='data')
 	plt.xlabel("MJD")
 	plt.ylabel("Mag")
 	plt.legend()
-	plt.title('fit: {} * sin(2pi/{} * (x-x0 + {})) + {}'.format(popt[0], popt[1], popt[3], popt[2]), fontsize=8)
+	plt.title("sigma_Y = {}, sigma_a = {}, sigma_P = {}".format(sigma_Y, sigma_a, sigma_P), fontsize=8)
+	plt.suptitle('{}*sin((2pi/{})*(x-x0+{}))+{}'.format(popt[0], popt[1], popt[3], popt[2]), fontsize=8)
 	#plt.show()
 	plt.savefig("cf_plot_p19_{}_{}.pdf".format(sigma, bins))
 	plt.close()
