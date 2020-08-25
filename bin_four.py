@@ -6,12 +6,12 @@ import csv
 np.seterr(all='raise')
 
 
-gE = np.genfromtxt(open("proxima/lcgoodg_bE.txt"), names=True, delimiter=" ")
-gA = np.genfromtxt(open("proxima/lcgoodg_bF.txt"), names=True, delimiter=" ")
-gi = np.genfromtxt(open("proxima/lcgoodg_bi.txt"), names=True, delimiter=" ")
-gq = np.genfromtxt(open("proxima/lcgoodg_bj.txt"), names=True, delimiter=" ")
-gm = np.genfromtxt(open("proxima/lcgoodg_bm.txt"), names=True, delimiter=" ")
-gn = np.genfromtxt(open("proxima/lcgoodg_bn.txt"), names=True, delimiter=" ")
+gE = np.genfromtxt(open("proxima/lcgoodg_bEa.txt"), names=True, delimiter=" ")
+gA = np.genfromtxt(open("proxima/lcgoodg_bFa.txt"), names=True, delimiter=" ")
+gi = np.genfromtxt(open("proxima/lcgoodg_bia.txt"), names=True, delimiter=" ")
+gq = np.genfromtxt(open("proxima/lcgoodg_bja.txt"), names=True, delimiter=" ")
+gm = np.genfromtxt(open("proxima/lcgoodg_bma.txt"), names=True, delimiter=" ")
+gn = np.genfromtxt(open("proxima/lcgoodg_bna.txt"), names=True, delimiter=" ")
 
 
 
@@ -40,7 +40,7 @@ def bin_func(lcgVbe, sigma=2.0, corr=0.0, bin_width=1):
 	b_mag_err_Ve_w = []
 	b_mjd_means = []
 
-	for i in np.arange(58000, 59000, bin_width):
+	for i in np.arange(58000, 59100, bin_width):
 		
 		b_mjds = []
 		b_i = [] #temporary list to hold magnitudes
@@ -127,7 +127,7 @@ def mjd_func(lcgVbe, bin_width=1):
 	b_mjd_Ve = []
 	b_mjd_means = []
 
-	for i in np.arange(58000, 59000, bin_width):
+	for i in np.arange(58000, 59100, bin_width):
 		
 		b_mjds = []
 		b_w = [] #temporary list to hold weights for magnitudes (1/(err)**2)
@@ -501,7 +501,7 @@ for sig in sigmas:
 
 
 	#writes to a file
-	with open('bin_results_proxima_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
+	with open('a_bin_results_proxima_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		#csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "mag_gE", "err_gE", 
@@ -782,7 +782,7 @@ for sig in sigmas:
 		scaled_ave_err.append(sae)
 
 
-	with open('scaled_results_proxima_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
+	with open('a_scaled_results_proxima_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		csv_writer.writerow(["scaling factors: gF: {} gE: {} gi: const gm: {} gj: {} gn: {} Chi square: {}".format(bestA, bestE, bestm, bestq, bestn, bestX)])
@@ -799,7 +799,7 @@ for sig in sigmas:
 				scaled_gn[i], binned_gn[2][i], binned_gn[3][i]+bestn,
 				scaled_ave[i], scaled_ave_err[i]])
 
-name2 = 'tabulated_results_proxima.csv'
+name2 = 'a_tabulated_results_proxima.csv'
 with open(name2, 'wt') as f:
 	csv_writer = csv.writer(f, delimiter=" ")
 

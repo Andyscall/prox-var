@@ -127,7 +127,7 @@ def mjd_func(lcgVbe, bin_width=1):
 	b_mjd_Ve = []
 	b_mjd_means = []
 
-	for i in np.arange(58000, 59000, bin_width):
+	for i in np.arange(58800, 59100, bin_width):
 		
 		b_mjds = []
 		b_w = [] #temporary list to hold weights for magnitudes (1/(err)**2)
@@ -352,8 +352,8 @@ def fractioner(binfile):
 	return f_data_loss
 
 
-sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
-#sigmas = [2.5]
+#sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+sigmas = [2.0]
 bins_width = 1
 
 shifts_gA = []
