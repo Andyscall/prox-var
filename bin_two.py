@@ -330,8 +330,8 @@ def fractioner(binfile):
 	return f_data_loss
 
 
-sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
-#sigmas = [2.5]
+#sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+sigmas = [2.0]
 bins_width = 1
 
 shifts_gA = []
@@ -460,7 +460,7 @@ for sig in sigmas:
 
 
 	#writes to a file
-	with open('bin_results_HD20630_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
+	with open('oct20_bin_results_HD20630_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		#csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "mag_gE", "err_gE", 
@@ -691,7 +691,7 @@ for sig in sigmas:
 		scaled_ave_err.append(sae)
 
 
-	with open('scaled_results_HD20630_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
+	with open('oct20_scaled_results_HD20630_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		csv_writer.writerow(["scaling factors: gE: {} gA: {} gm: {} gq: {} Chi square: {}".format(bestE, bestA, bestm, bestq, bestX)])
@@ -707,7 +707,7 @@ for sig in sigmas:
 				scaled_gq[i], binned_gq[2][i], binned_gq[3][i]+bestq,
 				scaled_ave[i], scaled_ave_err[i]])
 
-name2 = 'tabulated_results_HD20630.csv'
+name2 = 'oct20_tabulated_results_HD20630.csv'
 with open(name2, 'wt') as f:
 	csv_writer = csv.writer(f, delimiter=" ")
 

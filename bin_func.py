@@ -333,7 +333,8 @@ def fractioner(binfile):
 	return f_data_loss
 
 
-sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+#sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+sigmas = [2.0]
 bins_width = 1
 
 shifts_gA = []
@@ -449,7 +450,7 @@ for sig in sigmas:
 
 
 
-	file_name = 'bin_results_HD82443_{}_{}.csv'.format(sig, bins_width)
+	file_name = 'oct20_bin_results_HD82443_{}_{}.csv'.format(sig, bins_width)
 
 	with open(file_name, 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
@@ -690,7 +691,7 @@ for sig in sigmas:
 
 		scaled_ave_err.append(sae)
 
-	name = 'scaled_results_HD82443_{}_{}.csv'.format(sig, bins_width)
+	name = 'oct20_scaled_results_HD82443_{}_{}.csv'.format(sig, bins_width)
 
 	with open(name, 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
@@ -709,7 +710,7 @@ for sig in sigmas:
 				scaled_ave[i], scaled_ave_err[i]])
 
 
-name2 = 'tabulated_results_HD82443.csv'
+name2 = 'oct20_tabulated_results_HD82443.csv'
 with open(name2, 'wt') as f:
 	csv_writer = csv.writer(f, delimiter=" ")
 	csv_writer.writerow(["SigmaClip", "gEshift", "gishift", "gmshift", "gqshift", "Chi", "fractional data loss gA", "fdl gE", "fdl gi", "fdl gm", "fdl gq", "mean fdl"])

@@ -324,8 +324,8 @@ def fractioner(binfile):
 	return f_data_loss
 
 
-sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
-#sigmas = [2.5]
+#sigmas = [1.0, 1.5, 2.0, 2.5, 3.0]
+sigmas = [2.0]
 bins_width = 1
 
 shifts_gH = []
@@ -455,7 +455,7 @@ for sig in sigmas:
 
 
 	#writes to a file
-	with open('bin_results_gj358_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
+	with open('oct20_bin_results_gj358_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		#csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "mag_gE", "err_gE", 
@@ -478,9 +478,9 @@ for sig in sigmas:
 	rangeG = range(-5, 5)
 	
 	facG = -0.029
-	facH = 0.00
-	facp = 0.00
-	faco = 0.009
+	facH = -0.01
+	facp = -0.02
+	faco = -0.019
 	
 
 	bests = chi_func(rangeo, rangep, rangeH, rangeG,
@@ -579,16 +579,13 @@ for sig in sigmas:
 		bestp = bests[2]
 		besto = bests[3]
 		bestH = bests[4]
-		
+	
 	while bestp == (min(rangep)*0.001 + facp):
 		print("pmin")
 		print("before", bestp)
 		rangep = [x-4 for x in rangep]
 
 		bests = chi_func(rangeo, rangep, rangeH, rangeG, facG, facH, facp, faco)
-		#bests = chi_func(rangeo, rangep, rangeH, rangeG, bestG, bestH, bestp, besto)
-		#bests = chi_func(rangeo, rangep, rangeH, rangeG, facG, facH, facp, faco)
-
 
 		bestX = bests[0]
 		bestG = bests[1]
@@ -597,6 +594,7 @@ for sig in sigmas:
 		bestH = bests[4]
 
 		print("after", bestp)
+	
 		
 
 
@@ -679,7 +677,7 @@ for sig in sigmas:
 		scaled_ave_err.append(sae)
 
 
-	with open('scaled_results_gj358_{}_{}_oo.csv'.format(sig, bins_width), 'wt') as f:
+	with open('oct20_scaled_results_gj358_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
 		csv_writer = csv.writer(f, delimiter=" ")
 
 		csv_writer.writerow(["scaling factors: gG: {} gH: {} go: {} gp: {} Chi square: {}".format(bestG, bestH, besto, bestp, bestX)])
@@ -695,7 +693,7 @@ for sig in sigmas:
 				scaled_gp[i], binned_gp[2][i], binned_gp[3][i]+bestp,
 				scaled_ave[i], scaled_ave_err[i]])
 
-name2 = 'tabulated_results_gj358_oo.csv'
+name2 = 'oct20_tabulated_results_gj358.csv'
 with open(name2, 'wt') as f:
 	csv_writer = csv.writer(f, delimiter=" ")
 

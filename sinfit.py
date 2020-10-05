@@ -55,6 +55,15 @@ for sigma in sigmas:
 
 	ranges = [[0, 90], [85, 175], [170, 238]]
 
+	alist = []
+	blist = []
+	clist = []
+	plist = []
+
+	salist = []
+	sylist = []
+	splist = []
+
 	for R in ranges:
 		print(R)
 		print(R[0])
@@ -152,8 +161,15 @@ for sigma in sigmas:
 		sigma_P = sigma_f * (params[1]**2)
 
 		print("sigma_Y is {}, sigma_A is {}, sigma_P is {}".format(sigma_Y, sigma_a, sigma_P))
-		
 
+		alist.append(popt[0])
+		blist.append(popt[1])
+		clist.append(popt[2])
+		plist.append(popt[3])
+
+		salist.append(sigma_a)
+		sylist.append(sigma_Y)
+		splist.append(sigma_P)
 
 		plt.plot(mjd_1, curve, 'r-', label='fit: A=%5.3f, P=%5.3f, c=%5.3f, phi=%5.3f' % tuple(popt))
 		plt.plot(mjd_1, a_1, 'b.', label='data')
@@ -162,7 +178,6 @@ for sigma in sigmas:
 		plt.legend()
 		plt.title("sigma_Y = {}, sigma_a = {}, sigma_P = {}".format(sigma_Y, sigma_a, sigma_P), fontsize=8)
 		plt.suptitle('{}*sin((2pi/{})*(x-x0+{}))+{}'.format(popt[0], popt[1], popt[3], popt[2]), fontsize=8)
-		plt.suptitle("sigma_Y is {}, sigma_A is {}, sigma_P is {}".format(sigma_Y, sigma_a, sigma_P), fontsize=8)
 		plt.axvline(x = mjd_s[0])
 		try:
 			plt.axvline(x = mjd_s[85])
@@ -171,3 +186,15 @@ for sigma in sigmas:
 		#plt.show()
 		plt.savefig("cf_plot_proxima_{}.pdf".format(R))
 		plt.close()
+
+	name2 = 'tabulated_boxcar_proxima.csv'
+	with open(name2, 'wt') as f:
+		csv_writer = csv.writer(f, delimiter=" ")
+
+		csv_writer.writerow(["Equation: a * np.sin((2*math.pi/b) * (x - x_0 + p)) + c"])
+		csv_writer.writerow(["range", "a", "b", "c", "p", "sigma Y", "sigma a", "sigma P"])
+
+		for i in range(len(alist)):
+			csv_writer.writerow([ranges[i], alist[i], blist[i], clist[i], plist[i], sylist[i], salist[i], splist[i]])
+
+		
