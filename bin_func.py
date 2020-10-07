@@ -41,7 +41,7 @@ def bin_func(binfile, sigma=2.0, corr=0.0, bin_width=1):
 	b_mag_err_Ve_w = []
 	b_mjd_means = []
 
-	for i in np.arange(58000, 59000, bin_width):
+	for i in np.arange(58000, 59200, bin_width):
 		
 		b_mjds = []
 		b_i = [] #temporary list to hold magnitudes
@@ -128,7 +128,7 @@ def mjd_func(binfile, bin_width=1):
 	b_mjd_Ve = []
 	b_mjd_means = []
 
-	for i in np.arange(58000, 59000, bin_width):
+	for i in np.arange(58000, 59200, bin_width):
 		
 		b_mjds = []
 		b_w = [] #temporary list to hold weights for magnitudes (1/(err)**2)
