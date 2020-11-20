@@ -77,7 +77,7 @@ def bin_func(lcgVbe, sigma=2.0, corr=0.0, bin_width=1):
 			b_mjd_Ve.append(i)
 			b_mjd_means.append(0.0)
 			b_mag_Ve.append(0.0)
-			b_mag_err_Ve.append(9999)
+			b_mag_err_Ve.append(99.999)
 			b_mag_err_Ve_w.append(0.0)
 
 	mmag_Ve = np.average(b_mag_Ve, weights=b_mag_err_Ve_w)
@@ -107,7 +107,7 @@ def bin_func(lcgVbe, sigma=2.0, corr=0.0, bin_width=1):
 			#adds an error-filled zero, so as to not have empty data points. Not sure this works?
 			mjds_Ve.append(b_mjd_Ve[i])
 			mags_Ve.append(0.0)
-			mags_err_Ve.append(99999)
+			mags_err_Ve.append(99.999)
 			clipped_mag.append(b_mag_Ve[i])
 
 	vals_vE = [mjds_Ve, mags_Ve, mags_err_Ve, clipped_mag]
@@ -218,7 +218,7 @@ def chi_func(orange = range(-5, 5), prange = range(-5, 5), Hrange = range(-5, 5)
 
 						if np.isnan(binned_gH[1][j]) or binned_gH[1][j] == 0.0:
 							sgH = 0.0
-							sgHe = 9999999
+							sgHe = 99.999
 							sgHw = 0.0
 						else:
 							sgH = binned_gH[1][j]+scaleH
@@ -230,7 +230,7 @@ def chi_func(orange = range(-5, 5), prange = range(-5, 5), Hrange = range(-5, 5)
 
 						if np.isnan(binned_gG[1][j]) or binned_gG[1][j] == 0.0:
 							sgG = 0.0
-							sgGe = 9999999
+							sgGe = 99.999
 							sgGw = 0.0
 						else:
 							sgG = binned_gG[1][j]+scaleG
@@ -242,7 +242,7 @@ def chi_func(orange = range(-5, 5), prange = range(-5, 5), Hrange = range(-5, 5)
 						
 						if np.isnan(binned_gp[1][j]) or binned_gp[1][j] == 0.0:
 							sgp = 0.0
-							sgpe = 9999999
+							sgpe = 99.999
 							sgpw = 0.0
 						else:
 							sgp = binned_gp[1][j]+scalep
@@ -254,7 +254,7 @@ def chi_func(orange = range(-5, 5), prange = range(-5, 5), Hrange = range(-5, 5)
 
 						if np.isnan(binned_go[1][j]) or binned_go[1][j] == 0.0:
 							sgo = 0.0
-							sgoe = 9999999
+							sgoe = 99.999
 							sgow = 0.0
 						else:
 							sgo = binned_go[1][j]+scaleo
@@ -376,7 +376,7 @@ for sig in sigmas:
 	for i in range(len(binned_gH[0])):
 		if np.isnan(binned_gG[1][i]) or binned_gG[1][i] == 0.0:
 			b_gG.append(0.0)
-			b_gG_err.append(999999)
+			b_gG_err.append(99.999)
 		else:
 			sG = binned_gG[1][i]
 			b_gG.append(sG)
@@ -385,7 +385,7 @@ for sig in sigmas:
 		if np.isnan(binned_gl[1][i]) or binned_gl[1][i] == 0.0:
 			sl = 0.0
 			b_gl.append(0.0)
-			b_gl_err.append(999999)
+			b_gl_err.append(99.999)
 		else:
 			sl = binned_gl[1][i]
 			b_gl.append(sl)
@@ -394,7 +394,7 @@ for sig in sigmas:
 		if np.isnan(binned_go[1][i]) or binned_go[1][i] == 0.0:
 			so = 0.0
 			b_go.append(0.0)
-			b_go_err.append(999999)
+			b_go_err.append(99.999)
 		else:
 			so = binned_go[1][i]
 			b_go.append(so)
@@ -403,7 +403,7 @@ for sig in sigmas:
 		if np.isnan(binned_gp[1][i]) or binned_gp[1][i] == 0.0:
 			sp = 0.0
 			b_gp.append(0.0)
-			b_gp_err.append(999999)
+			b_gp_err.append(99.999)
 		else:
 			sp = binned_gp[1][i]
 			b_gp.append(sp)
@@ -412,7 +412,7 @@ for sig in sigmas:
 		if np.isnan(binned_gH[1][i]) or binned_gH[1][i] == 0.0:
 			sH = 0.0
 			b_gH.append(0.0)
-			b_gH_err.append(999999)
+			b_gH_err.append(99.999)
 		else:
 			sH = binned_gH[1][i]
 			b_gH.append(sH)
@@ -455,18 +455,19 @@ for sig in sigmas:
 
 
 	#writes to a file
-	with open('oct20_bin_results_gj358_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
-		csv_writer = csv.writer(f, delimiter=" ")
+	with open('oct20_bin_results_gj358_{}_{}.tsv'.format(sig, bins_width), 'wt') as f:
+		csv_writer = csv.writer(f, delimiter="\t")
 
-		#csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "mag_gE", "err_gE", 
-			#"mag_gi", "err_gi", "mag_gm", "err_gm", "mag_gq", "err_gq"])
+		csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "cut_gA", "mag_gE", "err_gE", "cut_gE", 
+			"mag_gi", "err_gi", "cut_gi", "mag_gm", "err_gm", "cut_gm", "mag_gq", "err_gq", "cut_gq"])
 
 		for i in range(len(binned_gH[0])):
-			csv_writer.writerow([all_mjd[i], b_gH[i], b_gH_err[i], binned_gH[3][i],
-				b_gG[i], b_gG_err[i], binned_gG[3][i],
-				b_gl[i], b_gl_err[i], binned_gl[3][i],
-				b_go[i], b_go_err[i], binned_go[3][i],
-				b_gp[i], b_gp_err[i], binned_gp[3][i],])
+			csv_writer.writerow([format(all_mjd[i], '.3f'), 
+				format(b_gH[i], '.3f'), format(b_gH_err[i], '.3f'), format(binned_gH[3][i], '.3f'),
+				format(b_gG[i], '.3f'), format(b_gG_err[i], '.3f'), format(binned_gG[3][i], '.3f'),
+				format(b_gl[i], '.3f'), format(b_gl_err[i], '.3f'), format(binned_gl[3][i], '.3f'),
+				format(b_go[i], '.3f'), format(b_go_err[i], '.3f'), format(binned_go[3][i], '.3f'),
+				format(b_gp[i], '.3f'), format(b_gp_err[i], '.3f'), format(binned_gp[3][i], '.3f'),])
 
 
 	#This next section does chi squared minimization, keeping the "i" data constant.
@@ -619,7 +620,7 @@ for sig in sigmas:
 		if np.isnan(binned_gG[1][i]) or binned_gG[1][i] == 0.0:
 			sG = 0.0
 			scaled_gG.append(0.0)
-			G_err = 999999
+			G_err = 99.999
 		else:
 			sG = binned_gG[1][i]+bestG
 			scaled_gG.append(sG)
@@ -628,7 +629,7 @@ for sig in sigmas:
 		if np.isnan(binned_gl[1][i]) or binned_gl[1][i] == 0.0:
 			sl = 0.0
 			scaled_gl.append(0.0)
-			l_err = 999999
+			l_err = 99.999
 		else:
 			sl = binned_gl[1][i]
 			scaled_gl.append(sl)
@@ -637,7 +638,7 @@ for sig in sigmas:
 		if np.isnan(binned_go[1][i]) or binned_go[1][i] == 0.0:
 			so = 0.0
 			scaled_go.append(0.0)
-			o_err = 999999
+			o_err = 99.999
 		else:
 			so = binned_go[1][i]+besto
 			scaled_go.append(so)
@@ -646,7 +647,7 @@ for sig in sigmas:
 		if np.isnan(binned_gp[1][i]) or binned_gp[1][i] == 0.0:
 			sp = 0.0
 			scaled_gp.append(0.0)
-			p_err = 999999
+			p_err = 99.999
 		else:
 			sp = binned_gp[1][i]+bestp
 			scaled_gp.append(sp)
@@ -655,7 +656,7 @@ for sig in sigmas:
 		if np.isnan(binned_gH[1][i]) or binned_gH[1][i] == 0.0:
 			sH = 0.0
 			scaled_gH.append(0.0)
-			H_err = 999999
+			H_err = 99.999
 		else:
 			sA = binned_gH[1][i]+bestH
 			scaled_gH.append(sH)
@@ -672,33 +673,37 @@ for sig in sigmas:
 		try:
 			sae = 1/(1/(H_err**2) + 1/(G_err**2) + 1/(l_err**2) + 1/(o_err**2) + 1/(p_err**2))
 		except:
-			sae = 9999999
+			sae = 99.999
 
 		scaled_ave_err.append(sae)
 
 
-	with open('oct20_scaled_results_gj358_{}_{}.csv'.format(sig, bins_width), 'wt') as f:
-		csv_writer = csv.writer(f, delimiter=" ")
+	with open('oct20_scaled_results_gj358_{}_{}.tsv'.format(sig, bins_width), 'wt') as f:
+		csv_writer = csv.writer(f, delimiter="\t")
 
-		csv_writer.writerow(["scaling factors: gG: {} gH: {} go: {} gp: {} Chi square: {}".format(bestG, bestH, besto, bestp, bestX)])
+		csv_writer.writerow(["scaling factors: gL: const gG: {} gH: {} go: {} gp: {} Chi square: {}".format(bestG, bestH, besto, bestp, bestX)])
 
-		#csv_writer.writerow(["MDJ", "mag_gA", "err_gA", "mag_gE", "err_gE", 
-			#"mag_gi", "err_gi", "mag_gm", "err_gm", "mag_gq", "err_gq", "mag_Va", "err_Va", "mag_Ve", "err_Ve", "scaled avg", "uncertainty"])
+		csv_writer.writerow(["MDJ", "mag_gH", "err_gH", "cut_gH", "mag_gG", "err_gG", "cut_gG", 
+			"mag_gl", "err_gl", "cut_gl", "mag_go", "err_go", "cut_go", "mag_gp", "err_gp", "cut_gp", 
+			"scaled avg", "uncertainty"])
 
 		for i in range(len(binned_gH[0])):
-			csv_writer.writerow([all_mjd[i], scaled_gH[i], binned_gH[2][i], binned_gH[3][i]+bestH,
-				scaled_gG[i], binned_gG[2][i], binned_gG[3][i]+bestG,
-				scaled_gl[i], binned_gl[2][i], binned_gl[3][i],
-				scaled_go[i], binned_go[2][i], binned_go[3][i]+besto,
-				scaled_gp[i], binned_gp[2][i], binned_gp[3][i]+bestp,
-				scaled_ave[i], scaled_ave_err[i]])
+			csv_writer.writerow([format(all_mjd[i], '.3f'), 
+				format(scaled_gH[i], '.3f'), format(binned_gH[2][i], '.3f'), format(binned_gH[3][i]+bestH, '.3f'),
+				format(scaled_gG[i], '.3f'), format(binned_gG[2][i], '.3f'), format(binned_gG[3][i]+bestG, '.3f'),
+				format(scaled_gl[i], '.3f'), format(binned_gl[2][i], '.3f'), format(binned_gl[3][i], '.3f'),
+				format(scaled_go[i], '.3f'), format(binned_go[2][i], '.3f'), format(binned_go[3][i]+besto, '.3f'),
+				format(scaled_gp[i], '.3f'), format(binned_gp[2][i], '.3f'), format(binned_gp[3][i]+bestp, '.3f'),
+				format(scaled_ave[i], '.3f'), format(scaled_ave_err[i], '.3f')])
 
-name2 = 'oct20_tabulated_results_gj358.csv'
+name2 = 'oct20_tabulated_results_gj358.tsv'
 with open(name2, 'wt') as f:
-	csv_writer = csv.writer(f, delimiter=" ")
+	csv_writer = csv.writer(f, delimiter="\t")
 
 	csv_writer.writerow(["SigmaClip", "gGshift", "gHshift", "goshift", "gpshift", "Chi", "fractional data loss gH", "fdl gG", "fdl gl", "fdl go", "fdl gp", "mean fdl"])
 
 	for i in range(len(sigmas)):
-		csv_writer.writerow([sigmas[i], shifts_gG[i], shifts_gH[i], shifts_go[i], shifts_gp[i], chis[i], fdl_gH[i], fdl_gG[i], fdl_gl[i], fdl_go[i], fdl_gp[i], mean_fdl[i]])
+		csv_writer.writerow([sigmas[i], format(shifts_gG[i], '.3f'), format(shifts_gH[i], '.3f'), 
+			format(shifts_go[i], '.3f'), format(shifts_gp[i], '.3f'), format(chis[i], '.3f'), format(fdl_gH[i], '.3f'), format(fdl_gG[i], '.3f'), 
+			format(fdl_gl[i], '.3f'), format(fdl_go[i], '.3f'), format(fdl_gp[i], '.3f'), format(mean_fdl[i], '.3f')])
 
